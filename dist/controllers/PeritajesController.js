@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeletePeritaje = exports.PutPeritajes = exports.PostPeritajes = exports.GetPeritaje = exports.GetPeritajes = void 0;
+exports.DeletePeritaje = exports.PutPeritajes = exports.PostPeritajes = exports.GetPeritaje = exports.GetPeritajeporuc = exports.GetPeritajes = void 0;
 const sequelize_1 = require("sequelize");
 const peritajes_1 = __importDefault(require("../models/peritajes"));
 const peritos_1 = __importDefault(require("../models/peritos"));
@@ -39,6 +39,27 @@ const GetPeritajes = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     });
 });
 exports.GetPeritajes = GetPeritajes;
+const GetPeritajeporuc = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { ruc } = req.params;
+    console.log(ruc);
+    peritajes_1.default.belongsTo(peritos_1.default, { foreignKey: 'peritos_id' });
+    peritajes_1.default.belongsTo(fiscales_1.default, { foreignKey: 'fiscales_id' });
+    peritajes_1.default.belongsTo(estados_1.default, { foreignKey: 'estados_id' });
+    const peritajes = yield peritajes_1.default.findAll({
+        where: {
+            ruc: ruc
+        },
+        include: [
+            { model: peritos_1.default },
+            { model: fiscales_1.default },
+            { model: estados_1.default },
+        ]
+    });
+    res.json({
+        peritajes
+    });
+});
+exports.GetPeritajeporuc = GetPeritajeporuc;
 const GetPeritaje = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const peritaje = yield peritajes_1.default.findByPk(id);

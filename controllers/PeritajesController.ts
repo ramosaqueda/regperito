@@ -31,6 +31,30 @@ export const GetPeritajes= async (req:Request, res: Response) => {
     
     }
 
+
+    export const GetPeritajeporuc= async (req:Request, res: Response) => {
+
+        const {ruc} = req.params;
+        console.log(ruc);
+        Peritajes.belongsTo(Peritos, {foreignKey: 'peritos_id'});
+        Peritajes.belongsTo(Fiscales, {foreignKey: 'fiscales_id'});
+        Peritajes.belongsTo(Estados, {foreignKey: 'estados_id'});       
+        const peritajes = await Peritajes.findAll({
+            where: {
+                ruc:ruc 
+              },
+              include: [
+                { model: Peritos },  
+                { model: Fiscales},
+                { model: Estados},  
+              ]
+             
+        });
+            res.json({
+                peritajes
+            });
+        
+        }
 export const GetPeritaje = async (req:Request, res: Response) => {
     const {id} = req.params;
     const peritaje = await Peritajes.findByPk(id);
@@ -72,8 +96,9 @@ export const PostPeritajes=async( req: Request , res: Response ) => {
 
 export const PutPeritajes= async (req:Request, res: Response) => {
     const { id }   = req.params;
+    
     const { body } = req;
-
+ 
     try {
         
         const peritaje = await Peritajes.findByPk( id );
@@ -82,9 +107,8 @@ export const PutPeritajes= async (req:Request, res: Response) => {
                 msg: 'No existe un peritaje con el id ' + id
             });
         }
-
-        await peritaje.update( body );
-
+        
+        await peritaje.update( body ); 
         res.json( peritaje );
 
 

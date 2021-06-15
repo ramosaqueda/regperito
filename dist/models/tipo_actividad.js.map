@@ -1,0 +1,1 @@
+{"version":3,"file":"tipo_actividad.js","sourceRoot":"","sources":["../../models/tipo_actividad.ts"],"names":[],"mappings":";;;;;AAAA,yCAAsC;AACtC,kEAAkC;AAElC,MAAM,cAAc,GAAG,oBAAE,CAAC,MAAM,CAAC,UAAU,EAAC;IACxC,WAAW,EAAE;QACT,IAAI,EAAE,qBAAS,CAAC,MAAM;KACzB;IACD,MAAM,EAAC;QACH,IAAI,EAAE,qBAAS,CAAC,OAAO;KAC1B;CACJ,EAAC;IACE,eAAe,EAAE,IAAI;CACtB,CAAC,CAAA;AACJ,kBAAe,cAAc,CAAC"}

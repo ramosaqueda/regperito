@@ -5,6 +5,7 @@ import estadosRoutes from '../routes/EstadosRoute';
 import tipoPerRoute from '../routes/TipoPerRoute';
 import peritajeRoute from '../routes/PeritajesRoute'
 import actividadesRoute from '../routes/ActividadesRoute'
+import tipoacts from '../routes/TipoActRoute'
 import cors from 'cors';
 import db from '../db/connection';
 
@@ -17,7 +18,8 @@ class Server{
         estado: '/api/estado',
         tipoper:'/api/tipoper',
         peritajes:'/api/peritajes',
-        actividades:'/api/actividades'
+        actividades:'/api/actividades',
+        tipoacts:'/api/tipoact'
         
     }
     constructor(){
@@ -59,7 +61,7 @@ class Server{
         this.app.use(this.apiPaths.tipoper, tipoPerRoute);
         this.app.use(this.apiPaths.peritajes,peritajeRoute);
         this.app.use(this.apiPaths.actividades,actividadesRoute);
-
+        this.app.use(this.apiPaths.tipoacts,tipoacts);
     }
     listen(){
         this.app.listen(this.port,()=> {

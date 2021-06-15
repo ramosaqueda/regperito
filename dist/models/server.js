@@ -19,6 +19,7 @@ const EstadosRoute_1 = __importDefault(require("../routes/EstadosRoute"));
 const TipoPerRoute_1 = __importDefault(require("../routes/TipoPerRoute"));
 const PeritajesRoute_1 = __importDefault(require("../routes/PeritajesRoute"));
 const ActividadesRoute_1 = __importDefault(require("../routes/ActividadesRoute"));
+const TipoActRoute_1 = __importDefault(require("../routes/TipoActRoute"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
@@ -29,7 +30,8 @@ class Server {
             estado: '/api/estado',
             tipoper: '/api/tipoper',
             peritajes: '/api/peritajes',
-            actividades: '/api/actividades'
+            actividades: '/api/actividades',
+            tipoacts: '/api/tipoact'
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '8080';
@@ -64,6 +66,7 @@ class Server {
         this.app.use(this.apiPaths.tipoper, TipoPerRoute_1.default);
         this.app.use(this.apiPaths.peritajes, PeritajesRoute_1.default);
         this.app.use(this.apiPaths.actividades, ActividadesRoute_1.default);
+        this.app.use(this.apiPaths.tipoacts, TipoActRoute_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
