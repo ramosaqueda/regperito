@@ -250,22 +250,7 @@
         align: 'start',
         sortable: false, 
         value: 'ruc',
-/*
-"id": 3,
-            "ruc": "21001333-5",
-            "fecha": "2020-12-10",
-            "nue": "12312",
-            "plazo": 30,
-            "gls_peritaje": "PRUEBAS DE PERIATEJE",
-            "obs_peritaje": "ESTA ES LA OBSERVACION",
-            "estado": null,
-            "tipo_peritaje_id": 1,
-            "fiscales_id": 1,
-            "peritos_id": 1,
-            "estados_id": 1,
-            "createdAt": "2021-06-11T01:44:20.000Z",
-            "updatedAt": "2021-06-11T01:44:20.000Z"
-             */
+
         
       },
      
@@ -378,20 +363,20 @@
                 let header={"Token" : "nadaporahora"};
               
                 let url = 'http://'+me.ip+':3000/api/peritajes/'+this.editedItem.id;
-                console.log(url);
-       
-                let body = this.editedItem;
-
-                console.log(body);
-                axios.put(url,{
-                               body
-                          })
-                          .then(function(response){
-                              me.color = 'success';
-                              me.text =' Registro agregado con éxio';
-                              me.dialogo_ok = true;
-                            
-                            
+              console.log(me.editedItem.ruc);
+                      axios.put(url,{
+                                "ruc": me.editedItem.ruc,
+                                "fecha": me.editedItem.fecha,
+                                "nue": me.editedItem.nue,
+                                "plazo":me.editedItem.plazo,
+                                "gls_peritaje": me.editedItem.gls_peritaje,
+                                "obs_peritaje": me.editedItem.obs_peritaje,
+                                "fiscales_id":me.editedItem.fiscales_id,
+                                "peritos_id": me.editedItem.peritos_id
+                              }).then(function(response){
+                                      me.color = 'success';
+                                      me.text =' Registro agregado con éxio';
+                                      me.dialogo_ok = true;
                           })
                           .catch(function(error){
                             console.log(error.response);
@@ -402,7 +387,7 @@
                           });
  
 
-            
+    
             } else {
               this.peritajes.push(me.editedItem)
             }
