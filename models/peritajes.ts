@@ -3,7 +3,7 @@ import db from '../db/connection';
 import Perito from './peritos';
 import Fiscales from './fiscales';
 import Estados from './estados';
- 
+import peritajes_has_estados from './peritajes_has_estados';
 
 
 const Peritajes = db.define('Peritajes',{
@@ -44,21 +44,15 @@ const Peritajes = db.define('Peritajes',{
             model: Perito,
             key: 'id'
         }
-    } ,
-    estados_id:{
-        type:DataTypes.NUMBER,
-        references: {
-            model: Estados,
-            key: 'id'
-        }
-    }
-
+    } 
     
 
 })
  
  
+Peritajes.belongsToMany(Estados, { through: peritajes_has_estados });
+Estados.belongsToMany(Peritajes, { through: peritajes_has_estados});
 
-
+//User.belongsToMany(Project, { through: UserProject });
 
 export default Peritajes;

@@ -1,17 +1,20 @@
 import  { DataTypes} from 'sequelize';
 import db from '../db/connection';
 
-const Ubicacion = db.define('Fiscales',{
-    nombre_fiscal: {
+const Ubicacion = db.define('Ubicacion',{
+    gls_ubicacion: {
         type: DataTypes.STRING
     },
-    rut_fiscal: {
-        type: DataTypes.STRING
-    },
+ 
     estado:{
         type: DataTypes.BOOLEAN
-    }
-
-})
-
+    } 
+    
+ 
+} ,  {
+    freezeTableName: true
+  })
+ 
 export default Ubicacion;
+ 
+   

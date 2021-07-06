@@ -8,6 +8,7 @@ const connection_1 = __importDefault(require("../db/connection"));
 const peritos_1 = __importDefault(require("./peritos"));
 const fiscales_1 = __importDefault(require("./fiscales"));
 const estados_1 = __importDefault(require("./estados"));
+const peritajes_has_estados_1 = __importDefault(require("./peritajes_has_estados"));
 const Peritajes = connection_1.default.define('Peritajes', {
     ruc: {
         type: sequelize_1.DataTypes.STRING
@@ -46,14 +47,10 @@ const Peritajes = connection_1.default.define('Peritajes', {
             model: peritos_1.default,
             key: 'id'
         }
-    },
-    estados_id: {
-        type: sequelize_1.DataTypes.NUMBER,
-        references: {
-            model: estados_1.default,
-            key: 'id'
-        }
     }
 });
+Peritajes.belongsToMany(estados_1.default, { through: peritajes_has_estados_1.default });
+estados_1.default.belongsToMany(Peritajes, { through: peritajes_has_estados_1.default });
+//User.belongsToMany(Project, { through: UserProject });
 exports.default = Peritajes;
 //# sourceMappingURL=peritajes.js.map

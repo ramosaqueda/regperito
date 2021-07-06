@@ -5,13 +5,15 @@ import Peritajes from '../models/peritajes';
 import Peritos from '../models/peritos';
 import Fiscales from '../models/fiscales';
 import Estados from '../models/estados';
+import PeritajesHasEstado from '../models/peritajes_has_estados';
+
 
 export const GetPeritajes= async (req:Request, res: Response) => {
 
 
     Peritajes.belongsTo(Peritos, {foreignKey: 'peritos_id'});
     Peritajes.belongsTo(Fiscales, {foreignKey: 'fiscales_id'});
-    Peritajes.belongsTo(Estados, {foreignKey: 'estados_id'});       
+    
     const peritajes = await Peritajes.findAll({
         where: {
             estado:{
@@ -21,7 +23,7 @@ export const GetPeritajes= async (req:Request, res: Response) => {
           include: [
             { model: Peritos },  
             { model: Fiscales},
-            { model: Estados},  
+           
           ]
          
     });
@@ -81,9 +83,24 @@ export const PostPeritajes=async( req: Request , res: Response ) => {
 
     
     try {
-        const peritaje =  Peritajes.build(body);
+        const peritaje =  Peritajes.build(body); 
         await peritaje.save();
-        res.json( peritaje );
+        if (peritaje){
+
+            let perhesdatosd  = ({
+                 "PeritajeId": peritaje.id,
+                  "EstadoId" :body.estados_id
+            });
+
+             
+            const peritaje_has_estado  =  PeritajesHasEstado.build(perhesdatosd);
+             peritaje_has_estado.save();
+             console.log(peritaje_has_estado);
+            
+
+            res.json( peritaje );
+        }
+       
     } catch (error) {
         res.status(500).json({
             msg: 'Hable con el administrador, error:' + error

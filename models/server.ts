@@ -6,6 +6,8 @@ import tipoPerRoute from '../routes/TipoPerRoute';
 import peritajeRoute from '../routes/PeritajesRoute'
 import actividadesRoute from '../routes/ActividadesRoute'
 import tipoacts from '../routes/TipoActRoute'
+import ubicacionRoute from '../routes/UbicacionRoute'
+import peritaje_has_estadoRoute from '../routes/PeritajesHasEstadosRoute'
 import cors from 'cors';
 import db from '../db/connection';
 
@@ -19,7 +21,9 @@ class Server{
         tipoper:'/api/tipoper',
         peritajes:'/api/peritajes',
         actividades:'/api/actividades',
-        tipoacts:'/api/tipoact'
+        tipoacts:'/api/tipoact',
+        ubicacion:'/api/ubicacion',
+        peritajeshasestados:'/api/peritajeshasestados'
         
     }
     constructor(){
@@ -62,6 +66,8 @@ class Server{
         this.app.use(this.apiPaths.peritajes,peritajeRoute);
         this.app.use(this.apiPaths.actividades,actividadesRoute);
         this.app.use(this.apiPaths.tipoacts,tipoacts);
+        this.app.use(this.apiPaths.ubicacion, ubicacionRoute);
+        this.app.use(this.apiPaths.peritajeshasestados, peritaje_has_estadoRoute);
     }
     listen(){
         this.app.listen(this.port,()=> {

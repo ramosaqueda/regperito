@@ -2,6 +2,10 @@ import { Request,Response } from 'express';
 import { json } from 'sequelize/types';
 import { Op } from 'sequelize';
 import Actividades from '../models/actividades';
+import { PostPeritajes } from './PeritajesController';
+import  Tipo_Actividad  from '../models/tipo_actividad';
+import Ubicacion from '../models/ubicacion';
+
 
 
 export const GetActividades= async (req:Request, res: Response) => {
@@ -20,6 +24,28 @@ export const GetActividades= async (req:Request, res: Response) => {
     
     }
 
+
+export const GetActividadxruc= async (req:Request, res: Response) => {
+    const {id} = req.params;
+    Actividades.belongsTo(Tipo_Actividad, {foreignKey: 'tipo_act_id'});
+    Actividades.belongsTo(Ubicacion,{foreignKey: 'ubicacion_id'} );
+    const  actividades = await Actividades.findAll({
+        where: {
+            peritajes_id: id
+        },
+        include: [
+            { model: Tipo_Actividad },  
+            { model: Ubicacion},
+           
+          ]
+                
+    });
+        res.json({
+            actividades
+        });
+    
+    }
+     
 export const GetActividad = async (req:Request, res: Response) => {
     const {id} = req.params;
     const actividad = await Actividades.findByPk(id);
@@ -30,7 +56,7 @@ export const GetActividad = async (req:Request, res: Response) => {
 
     }else{
         res.status(404).json({
-            msg:`actividad no encontrado con el ID ${id}`
+            msg:`actividad no encontrada con el ID ${id}`
         })
 
     }

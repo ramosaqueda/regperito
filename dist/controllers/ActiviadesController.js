@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteActividad = exports.PutActividades = exports.PostActividades = exports.GetActividad = exports.GetActividades = void 0;
+exports.DeleteActividad = exports.PutActividades = exports.PostActividades = exports.GetActividad = exports.GetActividadxruc = exports.GetActividades = void 0;
 const sequelize_1 = require("sequelize");
 const actividades_1 = __importDefault(require("../models/actividades"));
+const tipo_actividad_1 = __importDefault(require("../models/tipo_actividad"));
+const ubicacion_1 = __importDefault(require("../models/ubicacion"));
 const GetActividades = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const actividades = yield actividades_1.default.findAll({
         where: {
@@ -28,6 +30,24 @@ const GetActividades = (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.GetActividades = GetActividades;
+const GetActividadxruc = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    actividades_1.default.belongsTo(tipo_actividad_1.default, { foreignKey: 'tipo_act_id' });
+    actividades_1.default.belongsTo(ubicacion_1.default, { foreignKey: 'ubicacion_id' });
+    const actividades = yield actividades_1.default.findAll({
+        where: {
+            peritajes_id: id
+        },
+        include: [
+            { model: tipo_actividad_1.default },
+            { model: ubicacion_1.default },
+        ]
+    });
+    res.json({
+        actividades
+    });
+});
+exports.GetActividadxruc = GetActividadxruc;
 const GetActividad = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const actividad = yield actividades_1.default.findByPk(id);
@@ -38,7 +58,7 @@ const GetActividad = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     else {
         res.status(404).json({
-            msg: `actividad no encontrado con el ID ${id}`
+            msg: `actividad no encontrada con el ID ${id}`
         });
     }
 });

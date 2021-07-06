@@ -20,6 +20,8 @@ const TipoPerRoute_1 = __importDefault(require("../routes/TipoPerRoute"));
 const PeritajesRoute_1 = __importDefault(require("../routes/PeritajesRoute"));
 const ActividadesRoute_1 = __importDefault(require("../routes/ActividadesRoute"));
 const TipoActRoute_1 = __importDefault(require("../routes/TipoActRoute"));
+const UbicacionRoute_1 = __importDefault(require("../routes/UbicacionRoute"));
+const PeritajesHasEstadosRoute_1 = __importDefault(require("../routes/PeritajesHasEstadosRoute"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
@@ -31,7 +33,9 @@ class Server {
             tipoper: '/api/tipoper',
             peritajes: '/api/peritajes',
             actividades: '/api/actividades',
-            tipoacts: '/api/tipoact'
+            tipoacts: '/api/tipoact',
+            ubicacion: '/api/ubicacion',
+            peritajeshasestados: '/api/peritajeshasestados'
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '8080';
@@ -67,6 +71,8 @@ class Server {
         this.app.use(this.apiPaths.peritajes, PeritajesRoute_1.default);
         this.app.use(this.apiPaths.actividades, ActividadesRoute_1.default);
         this.app.use(this.apiPaths.tipoacts, TipoActRoute_1.default);
+        this.app.use(this.apiPaths.ubicacion, UbicacionRoute_1.default);
+        this.app.use(this.apiPaths.peritajeshasestados, PeritajesHasEstadosRoute_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

@@ -41,7 +41,7 @@
            
           <v-dialog
             v-model="dialog"
-            max-width="800px"
+            max-width="900px"
           >
             
             <v-card>
@@ -149,8 +149,28 @@
                       <v-textarea 
                         v-model="editedItem.obs_peritaje"
                         label="Observaciones"
+                        rows="2"
                       ></v-textarea>
                     </v-col>
+
+
+                     <v-col
+                  cols="12"
+                  md="4"
+                >
+                   
+
+             
+                
+                 <v-select
+                      :items="estados"
+                       item-text="gls_estado" item-value="id"
+                      label="SELECCOINE EL ESTADO PERITAJE"
+                      
+                  ></v-select>
+
+
+                </v-col>
                     
                   </v-row>
                 </v-container>
@@ -238,6 +258,7 @@
     ip:window.location.hostname,
     peritos:[],
     fiscales:[],
+    estados:[],
     text:'',
     
     color: 'info',
@@ -257,7 +278,7 @@
       { text: 'Fecha', value: 'fecha' ,    dataType: "Date"},
       { text: 'Fiscal', value: 'Fiscale.nombre_fiscal'},
       { text: 'NUE', value: 'nue'},
-      { text: 'Estado', value: 'Estado.gls_estado' },
+     // { text: 'Estado', value: 'Estado.gls_estado' },
       {text: 'Desc.', value: 'gls_peritaje' },
       {text: 'Perito', value: 'Perito.nombre_perito' },
       { text: 'Ver', value: 'actions', sortable: false },
@@ -323,6 +344,7 @@
       this.editedItem = Object.assign({}, item)
       this.select_fiscal();
       this.select_perito();
+      this.select_estados();
       this.dialog = true
     },
 
@@ -415,6 +437,20 @@
                 let url = 'http://'+me.ip+':3000/api/fiscal';
                 axios.get(url).then((response) => {
                         me.fiscales = response.data.fiscal;
+                    
+                }).catch(function(error){
+                    console.log(error);
+                });
+     },
+
+
+      select_estados(){
+                let me=this;
+              
+         
+                let url = 'http://'+me.ip+':3000/api/estado';
+                axios.get(url).then((response) => {
+                        me.estados = response.data.estado;
                     
                 }).catch(function(error){
                     console.log(error);

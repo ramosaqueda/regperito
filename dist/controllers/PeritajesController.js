@@ -18,10 +18,10 @@ const peritajes_1 = __importDefault(require("../models/peritajes"));
 const peritos_1 = __importDefault(require("../models/peritos"));
 const fiscales_1 = __importDefault(require("../models/fiscales"));
 const estados_1 = __importDefault(require("../models/estados"));
+const peritajes_has_estados_1 = __importDefault(require("../models/peritajes_has_estados"));
 const GetPeritajes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     peritajes_1.default.belongsTo(peritos_1.default, { foreignKey: 'peritos_id' });
     peritajes_1.default.belongsTo(fiscales_1.default, { foreignKey: 'fiscales_id' });
-    peritajes_1.default.belongsTo(estados_1.default, { foreignKey: 'estados_id' });
     const peritajes = yield peritajes_1.default.findAll({
         where: {
             estado: {
@@ -31,7 +31,6 @@ const GetPeritajes = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         include: [
             { model: peritos_1.default },
             { model: fiscales_1.default },
-            { model: estados_1.default },
         ]
     });
     res.json({
@@ -80,7 +79,16 @@ const PostPeritajes = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const peritaje = peritajes_1.default.build(body);
         yield peritaje.save();
-        res.json(peritaje);
+        if (peritaje) {
+            let perhesdatosd = ({
+                "PeritajeId": peritaje.id,
+                "EstadoId": body.estados_id
+            });
+            const peritaje_has_estado = peritajes_has_estados_1.default.build(perhesdatosd);
+            peritaje_has_estado.save();
+            console.log(peritaje_has_estado);
+            res.json(peritaje);
+        }
     }
     catch (error) {
         res.status(500).json({
