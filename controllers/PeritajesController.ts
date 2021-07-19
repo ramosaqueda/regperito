@@ -86,10 +86,12 @@ export const PostPeritajes=async( req: Request , res: Response ) => {
         const peritaje =  Peritajes.build(body); 
         await peritaje.save();
         if (peritaje){
+            console.log(peritaje.getDataValue('id'));
+            
 
-            let perhesdatosd  = ({
-                 "PeritajeId": peritaje.id,
-                  "EstadoId" :body.estados_id
+          let perhesdatosd  = ({
+                 "PeritajeId": peritaje.getDataValue('id'),
+                "EstadoId" :body.estados_id
             });
 
              
@@ -97,7 +99,7 @@ export const PostPeritajes=async( req: Request , res: Response ) => {
              peritaje_has_estado.save();
              console.log(peritaje_has_estado);
             
-
+ 
             res.json( peritaje );
         }
        

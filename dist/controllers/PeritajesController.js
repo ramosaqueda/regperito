@@ -80,8 +80,9 @@ const PostPeritajes = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const peritaje = peritajes_1.default.build(body);
         yield peritaje.save();
         if (peritaje) {
+            console.log(peritaje.getDataValue('id'));
             let perhesdatosd = ({
-                "PeritajeId": peritaje.id,
+                "PeritajeId": peritaje.getDataValue('id'),
                 "EstadoId": body.estados_id
             });
             const peritaje_has_estado = peritajes_has_estados_1.default.build(perhesdatosd);
