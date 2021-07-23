@@ -11,6 +11,7 @@ import peritaje_has_estadoRoute from '../routes/PeritajesHasEstadosRoute'
 import cors from 'cors';
 import db from '../db/connection';
 
+
 class Server{
     private app;
     private port:string;
