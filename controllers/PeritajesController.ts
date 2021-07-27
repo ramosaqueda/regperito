@@ -1,11 +1,15 @@
 import { Request,Response } from 'express';
 import { json } from 'sequelize/types';
-import { Op } from 'sequelize';
+import {Op,fn,col,QueryTypes} from 'sequelize';
+ 
+
 import Peritajes from '../models/peritajes';
 import Peritos from '../models/peritos';
 import Fiscales from '../models/fiscales';
 import Estados from '../models/estados';
 import PeritajesHasEstado from '../models/peritajes_has_estados';
+ 
+
 
 
 export const GetPeritajes= async (req:Request, res: Response) => {
@@ -167,24 +171,18 @@ export const PutPeritajes= async (req:Request, res: Response) => {
     }
 
 
-   export const GetPeritajesMes = async (req:Request, res:Response) => {
-        /*
-        SELECT MONTH (fecha),COUNT(id) 
-            FROM peritajes
-            where YEAR(fecha) = 2021
-            GROUP BY  MONTH (fecha)
-             where: {
-                    foo: 'bar',
-                    andOp:sequelize.where(sequelize.fn('YEAR', sequelize.col('dateField')), 2016)   
-                }
-        */
-                var Op = Sequelize.Op
-                let andOp = Op.and;
-            const peritajes = await Peritajes.findAll({
-                where: {
-                    andOp:sequelize.where(sequelize.fn('YEAR', sequelize.col('dateField')), 2016)   
-                  },
-                  
-
-            })
-   } 
+ 
+    export const GetPeritajesByMonth= async (req:Request, res: Response) => {      
+         
+        let query = 'SELECT DISTINCT  Count(peritajes.id) AS SUMA, MONTH(peritajes.fecha) AS MES  FROM   peritajes   WHERE  YEAR(peritajes.fecha) =2021 GROUP BY 	MES';        
+        const peritajes = await Peritajes.sequelize?.query(query,
+            {
+                type: QueryTypes.SELECT 
+            }
+            );   
+        
+            res.json({
+                peritajes
+            });        
+        }
+ 

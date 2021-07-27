@@ -12,7 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+<<<<<<< HEAD
 exports.GetPeritajesMes = exports.DeletePeritaje = exports.PutPeritajes = exports.PostPeritajes = exports.GetPeritaje = exports.GetPeritajeporuc = exports.GetPeritajes = void 0;
+=======
+exports.GetPeritajesByMonth = exports.DeletePeritaje = exports.PutPeritajes = exports.PostPeritajes = exports.GetPeritaje = exports.GetPeritajeporuc = exports.GetPeritajes = void 0;
+>>>>>>> 035e9b6252b27d08cd0fe8d44f5825c351ea7307
 const sequelize_1 = require("sequelize");
 const peritajes_1 = __importDefault(require("../models/peritajes"));
 const peritos_1 = __importDefault(require("../models/peritos"));
@@ -136,6 +140,7 @@ const DeletePeritaje = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(peritaje);
 });
 exports.DeletePeritaje = DeletePeritaje;
+<<<<<<< HEAD
 const GetPeritajesMes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     /*
     SELECT MONTH (fecha),COUNT(id)
@@ -152,4 +157,17 @@ const GetPeritajesMes = (req, res) => __awaiter(void 0, void 0, void 0, function
     });
 });
 exports.GetPeritajesMes = GetPeritajesMes;
+=======
+const GetPeritajesByMonth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    let query = 'SELECT DISTINCT  Count(peritajes.id) AS SUMA, MONTH(peritajes.fecha) AS MES  FROM   peritajes   WHERE  YEAR(peritajes.fecha) =2021 GROUP BY 	MES';
+    const peritajes = yield ((_a = peritajes_1.default.sequelize) === null || _a === void 0 ? void 0 : _a.query(query, {
+        type: sequelize_1.QueryTypes.SELECT
+    }));
+    res.json({
+        peritajes
+    });
+});
+exports.GetPeritajesByMonth = GetPeritajesByMonth;
+>>>>>>> 035e9b6252b27d08cd0fe8d44f5825c351ea7307
 //# sourceMappingURL=PeritajesController.js.map
