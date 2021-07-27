@@ -13,13 +13,21 @@ export const GetPeritajes= async (req:Request, res: Response) => {
 
     Peritajes.belongsTo(Peritos, {foreignKey: 'peritos_id'});
     Peritajes.belongsTo(Fiscales, {foreignKey: 'fiscales_id'});
+     
+    const {limit} = (req.body);
+
+    console.log (req.body[limit]);  
     
     const peritajes = await Peritajes.findAll({
+
         where: {
             estado:{
                 [Op.not]: false //con esto solo muestro los estados activos true
             }
           },
+          order: [
+            ['fecha', 'DESC']
+        ],
           include: [
             { model: Peritos },  
             { model: Fiscales},
@@ -37,7 +45,7 @@ export const GetPeritajes= async (req:Request, res: Response) => {
     export const GetPeritajeporuc= async (req:Request, res: Response) => {
 
         const {ruc} = req.params;
-        console.log(ruc);
+       
         Peritajes.belongsTo(Peritos, {foreignKey: 'peritos_id'});
         Peritajes.belongsTo(Fiscales, {foreignKey: 'fiscales_id'});
         Peritajes.belongsTo(Estados, {foreignKey: 'estados_id'});       
@@ -158,3 +166,25 @@ export const PutPeritajes= async (req:Request, res: Response) => {
         res.json(peritaje);
     }
 
+
+   export const GetPeritajesMes = async (req:Request, res:Response) => {
+        /*
+        SELECT MONTH (fecha),COUNT(id) 
+            FROM peritajes
+            where YEAR(fecha) = 2021
+            GROUP BY  MONTH (fecha)
+             where: {
+                    foo: 'bar',
+                    andOp:sequelize.where(sequelize.fn('YEAR', sequelize.col('dateField')), 2016)   
+                }
+        */
+                var Op = Sequelize.Op
+                let andOp = Op.and;
+            const peritajes = await Peritajes.findAll({
+                where: {
+                    andOp:sequelize.where(sequelize.fn('YEAR', sequelize.col('dateField')), 2016)   
+                  },
+                  
+
+            })
+   } 
