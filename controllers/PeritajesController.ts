@@ -171,7 +171,7 @@ export const PutPeritajes= async (req:Request, res: Response) => {
     }
 
 
- 
+
     export const GetPeritajesByMonth= async (req:Request, res: Response) => {      
          
         let query = 'SELECT DISTINCT  Count(peritajes.id) AS SUMA, MONTH(peritajes.fecha) AS MES  FROM   peritajes   WHERE  YEAR(peritajes.fecha) =2021 GROUP BY 	MES';        

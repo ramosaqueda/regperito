@@ -10,9 +10,9 @@
         lg="6"
       >
         <base-material-chart-card
-          :data="emailsSubscriptionChart.data"
-          :options="emailsSubscriptionChart.options"
-          :responsive-options="emailsSubscriptionChart.responsiveOptions"
+          :data="solpormes.data"
+          :options="solpormes.options"
+          :responsive-options="solpormes.responsiveOptions"
           color="#E91E63"
           hover-reveal
           type="Bar"
@@ -231,13 +231,10 @@
             },
           },
         },
-        emailsSubscriptionChart: {
+        solpormes: {
           data: {
-            labels: ['Ene', 'Fe', 'Ma', 'Ab', 'May', 'Ju', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'],
-            series: [
-              [3, 5, 6, 10, 6, 0, 0, 0, 0, 0, 0, 0],
+           
 
-            ],
           },
           options: {
             axisX: {
@@ -283,98 +280,16 @@
  
       
     ],
-        items: [
-          {
-            id: 1,
-            name: 'Dakota Rice',
-            country: 'Niger',
-            city: 'Oud-Tunrhout',
-            salary: '$35,738',
-          },
-          {
-            id: 2,
-            name: 'Minerva Hooper',
-            country: 'Curaçao',
-            city: 'Sinaai-Waas',
-            salary: '$23,738',
-          },
-          {
-            id: 3,
-            name: 'Sage Rodriguez',
-            country: 'Netherlands',
-            city: 'Overland Park',
-            salary: '$56,142',
-          },
-          {
-            id: 4,
-            name: 'Philip Chanley',
-            country: 'Korea, South',
-            city: 'Gloucester',
-            salary: '$38,735',
-          },
-          {
-            id: 5,
-            name: 'Doris Greene',
-            country: 'Malawi',
-            city: 'Feldkirchen in Kārnten',
-            salary: '$63,542',
-          },
-        ],
+       
         tabs: 0,
-        tasks: {
-          0: [
-            {
-              text: 'Sign contract for "What are conference organizers afraid of?"',
-              value: true,
-            },
-            {
-              text: 'Lines From Great Russian Literature? Or E-mails From My Boss?',
-              value: false,
-            },
-            {
-              text: 'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-              value: false,
-            },
-            {
-              text: 'Create 4 Invisible User Experiences you Never Knew About',
-              value: true,
-            },
-          ],
-          1: [
-            {
-              text: 'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-              value: true,
-            },
-            {
-              text: 'Sign contract for "What are conference organizers afraid of?"',
-              value: false,
-            },
-          ],
-          2: [
-            {
-              text: 'Lines From Great Russian Literature? Or E-mails From My Boss?',
-              value: false,
-            },
-            {
-              text: 'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-              value: true,
-            },
-            {
-              text: 'Sign contract for "What are conference organizers afraid of?"',
-              value: true,
-            },
-          ],
-        },
-        list: {
-          0: false,
-          1: false,
-          2: false,
-        },
+ 
+       
       }
       
     },
   created () {
-    this.initialize()
+    this.initialize();
+    this.cargaSolChart();
   },
 
     methods: {
@@ -391,6 +306,37 @@
             console.log(error);
         });
     },
+
+    cargaSolChart() {
+      let me=this;
+        let header={"Token" : "nadaporahora"};
+        let configuracion= {headers : header};  
+        let meses = [];
+        let valores =[];
+        let url = 'http://'+me.ip+':3000/api/peritajes/month/1';
+        let res =[];
+
+        axios.get(url).then((response) => {
+                 res= response.data.peritajes;
+                 res.forEach(element => {
+                   meses.push(element.MES) ;
+                   valores.push(element.SUMA);
+                 });
+           
+        }).catch(function(error){
+            console.log(error);
+        });
+
+        this.solpormes.data = {
+          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago'],
+          series:[valores]
+        }
+         
+       
+
+                  
+    },
+
       complete (index) {
         this.list[index] = !this.list[index]
       },

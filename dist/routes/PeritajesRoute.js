@@ -7,7 +7,6 @@ router.get('/', PeritajesController_1.GetPeritajes);
 router.get('/:id', PeritajesController_1.GetPeritaje);
 router.get('/month/:ano', PeritajesController_1.GetPeritajesByMonth);
 router.get('/ruc/:ruc', PeritajesController_1.GetPeritajeporuc);
-router.get('/mes/:mes', PeritajesController_1.GetPeritajesMes);
 router.post('/', PeritajesController_1.PostPeritajes);
 router.put('/:id', PeritajesController_1.PutPeritajes);
 router.delete('/:id', PeritajesController_1.DeletePeritaje);
