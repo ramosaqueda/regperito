@@ -158,13 +158,13 @@
             </div>
 
             <div class="subtitle-1 font-weight-light">
-             de los ultimos 3 meses
+             ('últimas 10')
             </div>
           </template>
           <v-card-text>
             <v-data-table
               :headers="headers"
-              :items="items"
+              :items="peritajes"
             />
           </v-card-text>
         </base-material-card>
@@ -181,11 +181,14 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'DashboardDashboard',
-
+    
     data () {
       return {
+        peritajes: [],
+         ip:window.location.hostname,
         dailySalesChart: {
           data: {
             labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
@@ -260,36 +263,26 @@
             }],
           ],
         },
-        headers: [
-          {
-            sortable: false,
-            text: 'ID',
-            value: 'id',
-          },
-          {
-            sortable: false,
-            text: 'Name',
-            value: 'name',
-          },
-          {
-            sortable: false,
-            text: 'Salary',
-            value: 'salary',
-            align: 'right',
-          },
-          {
-            sortable: false,
-            text: 'Country',
-            value: 'country',
-            align: 'right',
-          },
-          {
-            sortable: false,
-            text: 'City',
-            value: 'city',
-            align: 'right',
-          },
-        ],
+      
+         headers: [
+      {
+        
+        text: 'RUC',
+        align: 'start',
+        sortable: false, 
+        value: 'ruc',
+
+        
+      },
+     
+      { text: 'Fecha', value: 'fecha' ,    dataType: "Date"},
+      { text: 'Fiscal', value: 'Fiscale.nombre_fiscal'},
+     // { text: 'Estado', value: 'Estado.gls_estado' },
+     // {text: 'Desc.', value: 'gls_peritaje' },
+  
+ 
+      
+    ],
         items: [
           {
             id: 1,
@@ -378,9 +371,26 @@
           2: false,
         },
       }
+      
     },
+  created () {
+    this.initialize()
+  },
 
     methods: {
+       initialize () {
+   
+        let me=this;
+        let header={"Token" : "nadaporahora"};
+        let configuracion= {headers : header};  
+        let url = 'http://'+me.ip+':3000/api/peritajes';
+        axios.get(url).then((response) => {
+                me.peritajes = response.data.peritajes;
+            
+        }).catch(function(error){
+            console.log(error);
+        });
+    },
       complete (index) {
         this.list[index] = !this.list[index]
       },

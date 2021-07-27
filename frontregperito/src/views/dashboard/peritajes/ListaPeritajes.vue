@@ -30,7 +30,6 @@
         :headers="headers"
         :items="peritajes"
         :search="search"
-        sort-by="fecha"
         class="elevation-1"
 
     >
@@ -183,14 +182,14 @@
                   text
                   @click="close"
                 >
-                  Cancel
+                  Cancelar
                 </v-btn>
                 <v-btn
                   color="blue darken-1"
                   text
                   @click="save"
                 >
-                  Save
+                    Grabar
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -250,7 +249,7 @@
 
    
  <script>
-   import axios from 'axios'
+  import axios from 'axios'
   export default {
   data: () => ({
     dialog: false,

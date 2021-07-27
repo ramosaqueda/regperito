@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeletePeritaje = exports.PutPeritajes = exports.PostPeritajes = exports.GetPeritaje = exports.GetPeritajeporuc = exports.GetPeritajes = void 0;
+exports.GetPeritajesMes = exports.DeletePeritaje = exports.PutPeritajes = exports.PostPeritajes = exports.GetPeritaje = exports.GetPeritajeporuc = exports.GetPeritajes = void 0;
 const sequelize_1 = require("sequelize");
 const peritajes_1 = __importDefault(require("../models/peritajes"));
 const peritos_1 = __importDefault(require("../models/peritos"));
@@ -22,12 +22,17 @@ const peritajes_has_estados_1 = __importDefault(require("../models/peritajes_has
 const GetPeritajes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     peritajes_1.default.belongsTo(peritos_1.default, { foreignKey: 'peritos_id' });
     peritajes_1.default.belongsTo(fiscales_1.default, { foreignKey: 'fiscales_id' });
+    const { limit } = (req.body);
+    console.log(req.body[limit]);
     const peritajes = yield peritajes_1.default.findAll({
         where: {
             estado: {
                 [sequelize_1.Op.not]: false //con esto solo muestro los estados activos true
             }
         },
+        order: [
+            ['fecha', 'DESC']
+        ],
         include: [
             { model: peritos_1.default },
             { model: fiscales_1.default },
@@ -40,7 +45,6 @@ const GetPeritajes = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.GetPeritajes = GetPeritajes;
 const GetPeritajeporuc = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { ruc } = req.params;
-    console.log(ruc);
     peritajes_1.default.belongsTo(peritos_1.default, { foreignKey: 'peritos_id' });
     peritajes_1.default.belongsTo(fiscales_1.default, { foreignKey: 'fiscales_id' });
     peritajes_1.default.belongsTo(estados_1.default, { foreignKey: 'estados_id' });
@@ -132,4 +136,20 @@ const DeletePeritaje = (req, res) => __awaiter(void 0, void 0, void 0, function*
     res.json(peritaje);
 });
 exports.DeletePeritaje = DeletePeritaje;
+const GetPeritajesMes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /*
+    SELECT MONTH (fecha),COUNT(id)
+        FROM peritajes
+        where YEAR(fecha) = 2021
+        GROUP BY  MONTH (fecha)
+    */
+    const peritajes = yield peritajes_1.default.findAll({
+        where: {
+            [sequelize_1.Op.and]: [
+                { fecha: 2021 }
+            ]
+        }
+    });
+});
+exports.GetPeritajesMes = GetPeritajesMes;
 //# sourceMappingURL=PeritajesController.js.map
